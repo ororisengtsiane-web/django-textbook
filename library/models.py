@@ -12,6 +12,11 @@ class Author(models.Model):
         default="South Africa"
     )
 
+    def short_bio(self):
+        if self.bio:
+          return self.bio[:50] + "..."
+        return "No biography available."
+
     class Meta:
         ordering = ['name']
 
@@ -38,6 +43,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
     author = models.ForeignKey(
         Author,
         on_delete=models.CASCADE,
@@ -48,5 +54,8 @@ class Book(models.Model):
 
     categories = models.ManyToManyField(Category, blank=True)
 
-def __str__(self):
+    def __str__(self):
         return self.title
+
+class Meta:
+     ordering = ['title']
